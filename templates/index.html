@@ -16,10 +16,10 @@
 
         <!-- Button to trigger the add item modal -->
         <div class="add-item-button">  
-          <button id="openAddTaskModalBtn" class="openAddTaskModalBtn btn">Add Item</button> <!--rename openAddItemModalBtn and rename class also-->
+          <button id="openAddItemModalBtn" class="openAddItemModalBtn btn">Add Item</button> 
         </div>
         <!-- Add New Item Modal -->
-        <div id="addTaskModal" class="modal"> <!--rename addItemModal-->
+        <div id="addItemModal" class="modal"> 
           <div class="modal-content">
             <a href="#close" class="close">&times;</a>
             <h2 class="modal-heading">Add New Item</h2>
@@ -42,7 +42,7 @@
 
     <!-- Button to trigger add new list modal -->
     <div class="add-list-button">
-      <button id="openNewListModalBtn" class="openAddTaskModalBtn btn">Add List</button> <!--rename openAddItemModalBtn-->
+      <button id="openNewListModalBtn" class="openAddListModalBtn btn">Add List</button> 
     </div>
     <!-- Add New List Modal -->
     <div id="newListModal" class="modal">
@@ -88,8 +88,7 @@
               <div class="item-name">{{ list_item.itemname }}</div>
               <div class="item-buttons">
                 <div class="item-button">
-                  <!--rename openEditItemModalBtn-->
-                <button class="openEditModalBtn btn" 
+                <button class="openEditItemModalBtn btn" 
                   data-itemid="{{ list_item.itemid }}"
                   data-itemname="{{ list_item.itemname }}"
                   data-listid="{{ item.listid }}"
@@ -98,7 +97,7 @@
                   <div class="item-button">
                 <form action="/delete_item" method="post">
                   <input type="hidden" name="itemid" value="{{ list_item.itemid }}">
-                  <button type="submit" class="task-delete-btn btn">Delete Item</button> <!--rename item-delete-btn-->
+                  <button type="submit" class="item-delete-btn btn">Delete Item</button> 
                 </form>
               </div>
               </div>

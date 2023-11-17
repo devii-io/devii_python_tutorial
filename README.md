@@ -46,6 +46,6 @@ Windows:
 
 Linux:
 
-flask run
+    flask run
 
 The app should be running on your local server http://127.0.0.1:5000

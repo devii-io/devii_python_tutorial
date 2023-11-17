@@ -1,32 +1,31 @@
 document.addEventListener("DOMContentLoaded", function () {
   var listDropdown = '<select id="editListId" name="listid" required>';
-  var openAddTaskModalBtn = document.getElementById("openAddTaskModalBtn"); //I would like to rename openAddItemModalBtn
+  var openAddItemModalBtn = document.getElementById("openAddItemModalBtn");
   var openNewListModalBtn = document.getElementById("openNewListModalBtn");
-  var openEditModalBtns = document.querySelectorAll(".openEditModalBtn"); //I would like to rename open EditItemModalBtns
+  var openEditItemModalBtns = document.querySelectorAll(
+    ".openEditItemModalBtn"
+  );
   var openEditListModalBtns = document.querySelectorAll(
     ".openEditListModalBtn"
   );
-  var addTaskModal = document.getElementById("addTaskModal"); //I would like to rename addItemModal
+  var addItemModal = document.getElementById("addItemModal");
   var newListModal = document.getElementById("newListModal");
-  var editModal = document.getElementById("editModal"); //I would like to rename editItemModal
+  var editItemModal = document.getElementById("editItemModal");
   var editListModal = document.getElementById("editListModal");
   var closeModalBtns = document.querySelectorAll(".modal .close");
   var cancelBtns = document.querySelectorAll(".modal .cancel-btn");
-  var taskDeleteButton = document.querySelectorAll(".task-delete-btn"); //rename itemDeleteButton
+  var itemDeleteButton = document.querySelectorAll(".item-delete-btn");
   var listDeleteButton = document.querySelectorAll(".list-delete-btn");
 
-  openAddTaskModalBtn.addEventListener("click", function () {
-    //rename openAddItemModalBtn
-    //rename openAddItemModalButton
-    addTaskModal.style.display = "block"; //rename addItemModal
+  openAddItemModalBtn.addEventListener("click", function () {
+    addItemModal.style.display = "block";
   });
 
   openNewListModalBtn.addEventListener("click", function () {
     newListModal.style.display = "block";
   });
 
-  openEditModalBtns.forEach(function (btn) {
-    //rename openEditItemModalBtns
+  openEditItemModalBtns.forEach(function (btn) {
     btn.addEventListener("click", function () {
       var itemId = btn.getAttribute("data-itemid");
       var itemName = btn.getAttribute("data-itemname");
@@ -45,9 +44,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
       listDropdown += "</select>";
 
-      //rename editItemModalHtml and all below refering to task to item there are a few and the variable should be editItemModalHtml
-      var editModalHtml = ` 
-      <div id="editModal-${itemId}" class="method modal">
+      var editItemModalHtml = ` 
+      <div id="editItemModal-${itemId}" class="method modal">
         <div class="modal-content">
           <a href="#close" class="close">&times;</a>
           <h2 class="modal-heading">Edit Item</h2>
@@ -64,31 +62,31 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
     `;
 
-      var editModalContainer = document.createElement("div"); //rename editItemModalContainer
-      editModalContainer.innerHTML = editModalHtml; //rename
-      document.body.appendChild(editModalContainer); //rename
+      var editItemModalContainer = document.createElement("div");
+      editItemModalContainer.innerHTML = editItemModalHtml;
+      document.body.appendChild(editItemModalContainer);
 
       // Get the dynamically created edit item modal
-      var editModal = document.getElementById("editModal-" + itemId); //rename editItemModal
+      var editItemModal = document.getElementById("editItemModal-" + itemId);
 
       // Close modal functionality
-      var closeModalBtn = editModal.querySelector(".close");
-      var cancelBtn = editModal.querySelector(".cancel-btn"); //rename editItemModal
+      var closeModalBtn = editItemModal.querySelector(".close");
+      var cancelBtn = editItemModal.querySelector(".cancel-btn");
 
       closeModalBtn.addEventListener("click", function (event) {
         event.preventDefault();
-        editModal.style.display = "none";
-        editModal.remove(); // Remove the modal from the DOM
+        editItemModal.style.display = "none";
+        editItemModal.remove(); // Remove the modal from the DOM
       });
 
       cancelBtn.addEventListener("click", function (event) {
         event.preventDefault();
-        editModal.style.display = "none"; //rename editItemModal same with below
-        editModal.remove(); // Remove the modal from the DOM
+        editItemModal.style.display = "none";
+        editItemModal.remove(); // Remove the modal from the DOM
       });
 
       // Display the dynamically created edit item modal
-      editModal.style.display = "block"; //rename editItemModal
+      editItemModal.style.display = "block";
     });
   });
 
@@ -157,9 +155,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  taskDeleteButton.forEach(function (button) {
-    //rename itemDeleteButton
-    //rename itemDeleteButton
+  itemDeleteButton.forEach(function (button) {
     button.addEventListener("click", function (event) {
       event.preventDefault(); // Prevent the form submission
 
