@@ -26,7 +26,8 @@ def get_access_token():
         # Extract the access token
         access_token = json_response.get("access_token")
         if access_token:
-            print("this is your access token:", access_token)
+            # uncomment the line below if you would like to test the retrival of the access token
+            # print("this is your access token:", access_token)
             return access_token
         else:
             print("Access token not found in the response.")
@@ -37,7 +38,7 @@ def get_access_token():
 
 access_token = get_access_token()
 
-# Headers you will need
+# Headers you will need for all http post calls
 headers = {
     "Authorization": f"Bearer {access_token}",
     "Content-Type": "application/json",

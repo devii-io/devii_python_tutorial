@@ -1,49 +1,51 @@
 # devii_python_tutorial
-## This tutorial will use Python, Flask, Jinja2, HTML, Javascipt, and a SQL database to create a todo app. 
 
-Before you proceed further with the tutorial you need to ensure that you have Python installed.  
+## This tutorial will use Python, Flask, Jinja2, HTML, Javascipt, and a SQL database to create a todo app.
+
+Before you proceed further with the tutorial you need to ensure that you have Python installed.
 
 - Windows:
 
-	- Open the command prompt and type ‘python --version or python -V’ if you have python installed you will receive a response “Python 3.x.x”, the 3.x.x represents the python version you have installed.  
+  - Open the command prompt and type ‘python --version or python -V’ if you have python installed you will receive a response “Python 3.x.x”, the 3.x.x represents the python version you have installed.
 
 - macOS and Linux:
 
-	- If you have a mac, open the Terminal app by going to the Applications folder or Spotlight search and searching for Terminal, type ‘python --version or python -V’ if python is installed you will see a response 
+  - If you have a mac, open the Terminal app by going to the Applications folder or Spotlight search and searching for Terminal, type ‘python --version or python -V’ if python is installed you will see a response
 
-“Python 3.x.x”, the 3.x.x represents the python version you have installed.  
+“Python 3.x.x”, the 3.x.x represents the python version you have installed.
 
-If you do not have python installed, please visit https://www.python.org/ and follow the instructions to download the appropriate version for your OS.  
-
+If you do not have python installed, please visit https://www.python.org/ and follow the instructions to download the appropriate version for your OS.
 
 ### **Once you have confirmed you have python installed, clone this repository and follow the instructions below**
 
-NEXT, 
+NEXT,
 
 Create a python virtual environment, this will isolate project dependencies and avoid conflicts with other projects.
 
-Run the following command to create a virtual environment named "venv" (OS agnostic): 
+Run the following command to create a virtual environment named "venv" (OS agnostic):
 
-	python -m venv venv
+    python -m venv venv
 
 If running Windows run this command to activate your venv:
 
-	venv\Scripts\activate
- 
+    venv\Scripts\activate
+
 if running mac or linux run this command to activate your venv:
 
-	source venv/Scripts/activate
+    source venv/Scripts/activate
 
- THEN, run 
- 
- 	pip install -r requirements.txt
+THEN, run
 
-FINALLY, to run the project 
+pip install -r requirements.txt
 
-Windows: 
+FINALLY, to run the project
 
-	python app.py
+Windows:
 
- Linux: 
+    python app.py
 
- 	flask run 
+Linux:
+
+flask run
+
+The app should be running on your local server http://127.0.0.1:5000

@@ -6,24 +6,33 @@ app = Flask(__name__)
 
 
 @app.route("/")
+#this is the index page acting as the home page for the app
 def index():
+    #this will get all the data from your database via Devii
     list_data = graphql_helper.get_list_data()
 
     # sorts list by list id then item id so it will render the same way
     list_data.sort(key=lambda x: x["listid"])
     for item in list_data:
         item["items_collection"].sort(key=lambda x: x["itemid"])
-
+    
+    # this returns the index.html template with the list data
     return render_template("index.html", list_data=list_data)
 
 
 @app.route("/add_item", methods=["POST"])
+# this will be the Add Item route 
 def add_item():
+    # items will be added via a form made in the index.html 
     item_name = request.form["itemname"]
     list_id = request.form["listid"]
 
+    # The response will add the item to your database and add the list_id as the FK for that item
     response = graphql_helper.add_item(item_name, list_id)
 
+    # each GraphQL query or mutation will send a nested json response back, the first key 
+    # will be "data", if the response detects that key it will redirect to the index page and 
+    # refresh the list_data
     if response.get("data"):
         return redirect(url_for("index"))
     else:
