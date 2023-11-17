@@ -46,4 +46,4 @@ Windows:
 
  Linux: 
 
- 	Flask --run 
+ 	flask run 
