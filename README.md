@@ -2,9 +2,11 @@
 This tutorial will use Python, Flask, Jinja2, HTML, Javascipt, and a SQL database to create a todo app. 
 
 Before you proceed further with the tutorial you need to ensure that you have Python installed.  
+
 •	Windows:
 
 o	Open the command prompt and type ‘python --version or python -V’ if you have python installed you will receive a response “Python 3.x.x”, the 3.x.x represents the python version you have installed.  
+
 •	macOS and Linux:
 
 o	If you have a mac, open the Terminal app by going to the Applications folder or Spotlight search and searching for Terminal, type ‘python --version or python -V’ if python is installed you will see a response 
@@ -15,6 +17,7 @@ If you do not have python installed, please visit https://www.python.org/ and fo
 
 
 NEXT, 
+
 Create a python virtual environment, this will isolate project dependencies and avoid conflicts with other projects.
 
 Run the following command to create a virtual environment named "venv" (OS agnostic): 
@@ -32,3 +35,15 @@ if running mac or linux run this command to activate your venv:
  THEN, 
 
 run pip install -r requirements.txt
+
+FINALLY, 
+
+to run the project 
+
+Windows: 
+
+	python app.py
+
+ Linux: 
+
+ 	Flask --run 
