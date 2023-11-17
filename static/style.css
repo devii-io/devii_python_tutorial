@@ -1,0 +1,121 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #daebf2;
+}
+
+h1 {
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+}
+
+.add-item-button,
+.add-list-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.modal-heading {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  text-align: center;
+}
+
+/* Close button styles */
+.close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 24px;
+  text-decoration: none;
+  color: #000;
+}
+
+/* Show the modal when it is the target */
+#taskModal:target {
+  /*rename #itemModal:target */
+  display: block;
+}
+
+/* List styles */
+/* .lists-wrapper {
+} */
+
+.list-container {
+  display: flex;
+  flex-direction: column;
+  background: #63adca;
+  max-width: 560px;
+  margin: 20px auto;
+}
+
+/* .items-collection-header {
+} */
+
+.list-header {
+  border-bottom: 1px solid black;
+  font-weight: bold;
+}
+
+.list-header,
+.item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.list-id,
+.item-id {
+  width: 60px;
+  border-right: 1px solid black;
+}
+
+.list-name,
+.item-name {
+  width: calc(100% - 260px);
+}
+
+.list-buttons,
+.item-buttons {
+  display: flex;
+  flex-direction: row;
+  width: 200px;
+  border-left: 1px solid black;
+}
+
+/* .list-button {
+} */
+
+.btn {
+  background: #327893;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  font-size: 14px;
+  margin: 2px;
+  cursor: pointer;
+  border-radius: 8px;
+}
