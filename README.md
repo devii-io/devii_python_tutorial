@@ -36,9 +36,7 @@ if running mac or linux run this command to activate your venv:
 
 run pip install -r requirements.txt
 
-FINALLY, 
-
-to run the project 
+FINALLY, to run the project 
 
 Windows: 
 
