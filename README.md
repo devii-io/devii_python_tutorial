@@ -16,9 +16,15 @@ If you do not have python installed, please visit https://www.python.org/ and fo
 
 NEXT, 
 Create a python virtual environment, this will isolate project dependencies and avoid conflicts with other projects.
+
 Run the following command to create a virtual environment named "venv" (OS agnostic): 
+
 python -m venv venv
+
 If running Windows run this command to activate your venv:
+
 	venv\Scripts\activate
+ 
 if running mac or linux run this command to activate your venv:
+
 	source venv/Scripts/activate
