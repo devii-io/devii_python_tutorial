@@ -16,6 +16,8 @@ o	If you have a mac, open the Terminal app by going to the Applications folder o
 If you do not have python installed, please visit https://www.python.org/ and follow the instructions to download the appropriate version for your OS.  
 
 
+Once you have confirmed you have python installed, clone this repository and follow the instructions below
+
 NEXT, 
 
 Create a python virtual environment, this will isolate project dependencies and avoid conflicts with other projects.
