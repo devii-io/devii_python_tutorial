@@ -19,7 +19,7 @@ Create a python virtual environment, this will isolate project dependencies and 
 
 Run the following command to create a virtual environment named "venv" (OS agnostic): 
 
-python -m venv venv
+	python -m venv venv
 
 If running Windows run this command to activate your venv:
 
@@ -28,3 +28,7 @@ If running Windows run this command to activate your venv:
 if running mac or linux run this command to activate your venv:
 
 	source venv/Scripts/activate
+
+ THEN, 
+
+run pip install -r requirements.txt
