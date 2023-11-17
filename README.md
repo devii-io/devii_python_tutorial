@@ -32,9 +32,9 @@ if running mac or linux run this command to activate your venv:
 
 	source venv/Scripts/activate
 
- THEN, 
-
-run pip install -r requirements.txt
+ THEN, run 
+ 
+ 	pip install -r requirements.txt
 
 FINALLY, to run the project 
 
