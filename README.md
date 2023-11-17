@@ -12,3 +12,13 @@ o	If you have a mac, open the Terminal app by going to the Applications folder o
 “Python 3.x.x”, the 3.x.x represents the python version you have installed.  
 
 If you do not have python installed, please visit https://www.python.org/ and follow the instructions to download the appropriate version for your OS.  
+
+
+NEXT, 
+Create a python virtual environment, this will isolate project dependencies and avoid conflicts with other projects.
+Run the following command to create a virtual environment named "venv" (OS agnostic): 
+python -m venv venv
+If running Windows run this command to activate your venv:
+	venv\Scripts\activate
+if running mac or linux run this command to activate your venv:
+	source venv/Scripts/activate
