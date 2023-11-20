@@ -26,7 +26,7 @@ Run the following command to create a virtual environment named "venv" (OS agnos
 
     python -m venv venv
 
-    or
+  or
 
     python3 -m venv venv
 
@@ -36,9 +36,6 @@ If running Windows run this command to activate your venv:
 
 if running mac or linux run this command to activate your venv:
 
-    source venv/Scripts/activate
-
-    or
 
     source venv/bin/activate
 
