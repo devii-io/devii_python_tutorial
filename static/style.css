@@ -53,12 +53,6 @@ h1 {
   color: #000;
 }
 
-/* Show the modal when it is the target */
-#taskModal:target {
-  /*rename #itemModal:target */
-  display: block;
-}
-
 /* List styles */
 /* .lists-wrapper {
 } */
