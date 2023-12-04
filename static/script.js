@@ -1,40 +1,32 @@
-document.addEventListener("DOMContentLoaded", function () {
-  var listDropdown = '<select id="editListId" name="listid" required>';
-  var openAddItemModalBtn = document.getElementById("openAddItemModalBtn");
-  var openNewListModalBtn = document.getElementById("openNewListModalBtn");
-  var openEditItemModalBtns = document.querySelectorAll(
-    ".openEditItemModalBtn"
-  );
-  var openEditListModalBtns = document.querySelectorAll(
-    ".openEditListModalBtn"
-  );
-  var addItemModal = document.getElementById("addItemModal");
-  var newListModal = document.getElementById("newListModal");
-  var editItemModal = document.getElementById("editItemModal");
-  var editListModal = document.getElementById("editListModal");
-  var closeModalBtns = document.querySelectorAll(".modal .close");
-  var cancelBtns = document.querySelectorAll(".modal .cancel-btn");
-  var itemDeleteButton = document.querySelectorAll(".item-delete-btn");
-  var listDeleteButton = document.querySelectorAll(".list-delete-btn");
+document.addEventListener("DOMContentLoaded", () => {
+  const openAddItemModalBtn = document.getElementById("openAddItemModalBtn");
+  const openNewListModalBtn = document.getElementById("openNewListModalBtn");
+  const openEditItemModalBtns = document.querySelectorAll(".openEditItemModalBtn");
+  const openEditListModalBtns = document.querySelectorAll(".openEditListModalBtn");
+  const addItemModal = document.getElementById("addItemModal");
+  const newListModal = document.getElementById("newListModal");
+  const closeModalBtns = document.querySelectorAll(".modal .close");
+  const cancelBtns = document.querySelectorAll(".modal .cancel-btn");
+  const itemDeleteButton = document.querySelectorAll(".item-delete-btn");
+  const listDeleteButton = document.querySelectorAll(".list-delete-btn");
 
-  openAddItemModalBtn.addEventListener("click", function () {
+  openAddItemModalBtn.addEventListener("click", () => {
     addItemModal.style.display = "block";
   });
 
-  openNewListModalBtn.addEventListener("click", function () {
+  openNewListModalBtn.addEventListener("click", () => {
     newListModal.style.display = "block";
   });
 
-  openEditItemModalBtns.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var itemId = btn.getAttribute("data-itemid");
-      var itemName = btn.getAttribute("data-itemname");
-      var currentListId = btn.getAttribute("data-listid");
-      var currentListName = btn.getAttribute("data-listname");
+  openEditItemModalBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      let itemId = btn.getAttribute("data-itemid");
+      let itemName = btn.getAttribute("data-itemname");
+      let currentListId = btn.getAttribute("data-listid");
 
-      var listDropdown = '<select id="editListId" name="listid" required>'; //resets list
+      let listDropdown = '<select id="editListId" name="listid" required>'; //resets list
 
-      listData.forEach(function (list_item) {
+      listData.forEach( (list_item) => {
         listDropdown += '<option value="' + list_item.listid + '"';
         if (list_item.listid === currentListId) {
           listDropdown += " selected";
@@ -44,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       listDropdown += "</select>";
 
-      var editItemModalHtml = ` 
+      let editItemModalHtml = ` 
       <div id="editItemModal-${itemId}" class="method modal">
         <div class="modal-content">
           <a href="#close" class="close">&times;</a>
@@ -62,24 +54,24 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
     `;
 
-      var editItemModalContainer = document.createElement("div");
+      let editItemModalContainer = document.createElement("div");
       editItemModalContainer.innerHTML = editItemModalHtml;
       document.body.appendChild(editItemModalContainer);
 
       // Get the dynamically created edit item modal
-      var editItemModal = document.getElementById("editItemModal-" + itemId);
+      let editItemModal = document.getElementById("editItemModal-" + itemId);
 
       // Close modal functionality
-      var closeModalBtn = editItemModal.querySelector(".close");
-      var cancelBtn = editItemModal.querySelector(".cancel-btn");
+      let closeModalBtn = editItemModal.querySelector(".close");
+      let cancelBtn = editItemModal.querySelector(".cancel-btn");
 
-      closeModalBtn.addEventListener("click", function (event) {
+      closeModalBtn.addEventListener("click", (event) => {
         event.preventDefault();
         editItemModal.style.display = "none";
         editItemModal.remove(); // Remove the modal from the DOM
       });
 
-      cancelBtn.addEventListener("click", function (event) {
+      cancelBtn.addEventListener("click", (event) => {
         event.preventDefault();
         editItemModal.style.display = "none";
         editItemModal.remove(); // Remove the modal from the DOM
@@ -90,12 +82,12 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  openEditListModalBtns.forEach(function (btn) {
-    btn.addEventListener("click", function () {
-      var listId = btn.getAttribute("data-listid");
-      var listName = btn.getAttribute("data-listname");
+  openEditListModalBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      let listId = btn.getAttribute("data-listid");
+      let listName = btn.getAttribute("data-listname");
 
-      var editListModal = `
+      let editListModalHTML = `
       <div id="editListModal-${listId}" class="method modal">
         <div class="modal-content">
           <a href="#close" class="close">&times;</a>
@@ -114,25 +106,25 @@ document.addEventListener("DOMContentLoaded", function () {
       </div>
       `;
 
-      var listEditModalContainer = document.createElement("div");
-      listEditModalContainer.innerHTML = editListModal;
+      let listEditModalContainer = document.createElement("div");
+      listEditModalContainer.innerHTML = editListModalHTML;
       document.body.appendChild(listEditModalContainer);
 
-      var editListModal = document.getElementById("editListModal-" + listId);
+      let editListModal = document.getElementById("editListModal-" + listId);
 
-      var listNameInput = editListModal.querySelector("#listname");
+      let listNameInput = editListModal.querySelector("#listname");
       listNameInput.value = listName;
 
-      var closeModalBtn = editListModal.querySelector(".close");
-      var cancelBtn = editListModal.querySelector(".cancel-btn");
+      let closeModalBtn = editListModal.querySelector(".close");
+      let cancelBtn = editListModal.querySelector(".cancel-btn");
 
-      closeModalBtn.addEventListener("click", function (event) {
+      closeModalBtn.addEventListener("click", (event) => {
         event.preventDefault();
         editListModal.style.display = "none";
         editListModal.remove(); // Remove the modal from the DOM
       });
 
-      cancelBtn.addEventListener("click", function (event) {
+      cancelBtn.addEventListener("click", (event) => {
         event.preventDefault();
         editListModal.style.display = "none";
         editListModal.remove(); // Remove the modal from the DOM
@@ -142,24 +134,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  closeModalBtns.forEach(function (btn) {
-    btn.addEventListener("click", function (event) {
+  closeModalBtns.forEach( (btn) => {
+    btn.addEventListener("click", (event) => {
       event.preventDefault(); // Prevent the default anchor behavior
       btn.closest(".modal").style.display = "none";
     });
   });
 
-  cancelBtns.forEach(function (btn) {
-    btn.addEventListener("click", function () {
+  cancelBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
       btn.closest(".modal").style.display = "none";
     });
   });
 
-  itemDeleteButton.forEach(function (button) {
-    button.addEventListener("click", function (event) {
+  itemDeleteButton.forEach( (button) => {
+    button.addEventListener("click", (event) => {
       event.preventDefault(); // Prevent the form submission
 
-      var confirmDelete = confirm("Are you sure you want to delete this item?");
+      let confirmDelete = confirm("Are you sure you want to delete this item?");
       if (confirmDelete) {
         // If user confirms, submit the form
         button.closest("form").submit();
@@ -167,11 +159,11 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  listDeleteButton.forEach(function (button) {
-    button.addEventListener("click", function (event) {
+  listDeleteButton.forEach((button) => {
+    button.addEventListener("click", (event) => {
       event.preventDefault(); // Prevent the form submission
 
-      var confirmDelete = confirm(
+      let confirmDelete = confirm(
         "Are you sure you want to delete this list? \n All items associated with this list will also be deleted!"
       );
       if (confirmDelete) {

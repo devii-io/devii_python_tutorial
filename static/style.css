@@ -16,12 +16,13 @@ h1 {
   justify-content: center;
 }
 
+/* Modal styles */
+
 .modal-heading {
   font-size: 30px;
   font-weight: bold;
 }
 
-/* Modal styles */
 .modal {
   display: none;
   position: fixed;
@@ -54,8 +55,6 @@ h1 {
 }
 
 /* List styles */
-/* .lists-wrapper {
-} */
 
 .list-container {
   display: flex;
@@ -64,9 +63,6 @@ h1 {
   max-width: 560px;
   margin: 20px auto;
 }
-
-/* .items-collection-header {
-} */
 
 .list-header {
   border-bottom: 1px solid black;
@@ -98,9 +94,6 @@ h1 {
   width: 200px;
   border-left: 1px solid black;
 }
-
-/* .list-button {
-} */
 
 .btn {
   background: #327893;

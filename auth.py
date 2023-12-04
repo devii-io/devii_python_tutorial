@@ -6,7 +6,7 @@ AUTH_URL = "https://api.devii.io/auth"
 
 
 def get_access_token():
-    """this is to get the access token for the application"""
+    """Retreive access token for the application"""
 
     # Create a dictionary to store the form data
     data = {
@@ -15,12 +15,11 @@ def get_access_token():
         "tenantid": "--tennentid--",
     }
 
-    # Make the POST request
+    # Make the POST request to the Devii authentication endpoint with the provided data.
     response = requests.post(AUTH_URL, data=data)
 
-    # Check for a successful response
+    # Check for a successful response, if status code is 200 parse the JSON response
     if response.status_code == 200:
-        # Parse the JSON response
         json_response = response.json()
 
         # Extract the access token
@@ -31,6 +30,7 @@ def get_access_token():
             return access_token
         else:
             print("Access token not found in the response.")
+    # If the response status code is not 200, it prints an error message along with the status code and the response text.
     else:
         print("Error:", response.status_code)
         print(response.text)
