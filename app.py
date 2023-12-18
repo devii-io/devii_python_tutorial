@@ -14,7 +14,7 @@ def index():
     # sorts list by list id then item id so it will render the same way
     list_data.sort(key=lambda x: x["listid"])
     for item in list_data:
-        item["items_collection"].sort(key=lambda x: x["itemid"])
+        item["item_collection"].sort(key=lambda x: x["itemid"])
     
     # this returns the index.html template with the list data
     return render_template("index.html", list_data=list_data)
