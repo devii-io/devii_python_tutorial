@@ -27,7 +27,7 @@ def get_list_data():
         list {
             listid
             listname
-            items_collection {
+            item_collection {
                 itemid
                 itemname
             }
@@ -49,8 +49,8 @@ def get_list_data():
 def add_item(item_name, list_id):
     # to add an item to the item table with and a listid FK
     add_item_mutation = """
-        mutation ($i: itemsInput){
-            create_items(input: $i){
+        mutation ($i: itemInput){
+            create_item(input: $i){
                 itemid
                 itemname
                 list {
@@ -71,8 +71,8 @@ def add_item(item_name, list_id):
 
 def edit_item(itemid, new_name, list_id):
     edit_item_mutation = """
-        mutation ($i: itemsInput, $j: ID!) {
-            update_items(input: $i, itemid: $j) {
+        mutation ($i: itemInput, $j: ID!) {
+            update_item(input: $i, itemid: $j) {
                 itemid 
                 itemname
                 list {
@@ -107,7 +107,7 @@ def edit_list(listid, new_list_name):
 def delete_item(itemid):
     delete_item_mutation = """
     mutation($i:ID!){
-        delete_items(itemid:$i){
+        delete_item(itemid:$i){
             itemid
             itemname
         }
