@@ -10,7 +10,7 @@ Before you proceed further with the tutorial you need to ensure that you have Py
 
 - macOS and Linux:
 
-  - If you have a mac, open the Terminal app by going to the Applications folder or Spotlight search and searching for Terminal, type ‘python --version or python -V’ if python is installed you will see a response
+  - If you have a mac, open the Terminal app by going to the Applications folder or Spotlight search and searching for Terminal, type ‘python3 --version or python3 -V’ if python is installed you will see a response
 
 “Python 3.x.x”, the 3.x.x represents the python version you have installed.
 
