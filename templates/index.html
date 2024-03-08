@@ -5,18 +5,22 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ToDo App</title>
+    </head>
     <script 
       type="text/javascript" 
       src="{{ url_for('static', filename='script.js') }}">
     </script>
     <script type="text/javascript">
       let listData = JSON.parse('{{ list_data | tojson | safe }}');
+      let statusData = JSON.parse('{{ status_data | tojson | safe }}');
+      console.log(statusData)
+      console.log(listData)
     </script>
     <link rel="stylesheet" type="text/css" href="../static/css_reset.css" /> 
     <link rel="stylesheet" type="text/css" href="../static/style.css" />
   </head>
   <body>
-    <h1>ToDo App</h1>
+    <h1>ToDo App</h1></br>
     <!-- Button to trigger the add item modal -->
     <div class="add-item-button">  
       <button id="openAddItemModalBtn" class="openAddItemModalBtn btn">Add Item</button> 
@@ -35,8 +39,15 @@
             <option value="{{ list_item.listid }}">
               {{ list_item.listname }}
             </option>
-            {% endfor %}</select
-          ><br />
+            {% endfor %}</select><br />
+            <label for="statusid">Select Status:</label>
+            <select id="statusid" name="statusid" required>
+            {% for status_item in status_data %}
+            <option value="{{status_item.statusid}}">
+              {{ status_item.statusname}}
+            </option>
+            {%endfor %}
+          </select></br>
           <input type="submit" class="btn" value="Save Item" />
           <button type="button" class="cancel-btn btn">Cancel</button>
         </form>
@@ -55,6 +66,14 @@
         <form action="/add_list" method="post">
           <label for="listname">List Name:</label>
           <input type="text" id="listname" name="listname" required /><br />
+          <label for="statusid">Select Status:</label>
+            <select id="statusid" name="statusid" required>
+            {% for item in status_data %}
+              <option value="{{item.statusid}}">
+                {{ item.statusname}}
+              </option>
+            {%endfor %}
+          </select></br>
           <input type="submit" class="btn" value="Save List" />
           <button type="button" class="cancel-btn btn">Cancel</button>
         </form>
@@ -67,11 +86,19 @@
           <li class="list-header">
             <div class="list-id">  {{ item.listid }} </div>
             <div class="list-name"> {{ item.listname }} </div>
+            <div class="list-status">
+                {% for status_item in status_data %}
+                {% if status_item.statusid|int == item.statusid|int %}
+                  {{ status_item.statusname }}
+                {% endif %}
+              {% endfor %}
+            </div>
               <div class="list-buttons">
                 <div class="list-button">
                   <button class="openEditListModalBtn btn" 
                   data-listid="{{ item.listid }}"
-                  data-listname="{{ item.listname }}">Edit List</button>
+                  data-listname="{{ item.listname }}"
+                  data-statusid="{{ item.statusid }}" >Edit List</button>
                 </div>
                 <div class="list-button">
                   <form action="/delete_list" method="post">
@@ -83,17 +110,26 @@
           </li>
         </ul>
             <ul class="items-collection">
-              {% for list_item in item.items_collection %}
+              {% for list_item in item.item_collection %}
               <li class="item">
                   <div class="item-id">{{ list_item.itemid }}</div>
                   <div class="item-name">{{ list_item.itemname }}</div>
+                  <div class="item-status"> 
+                    {% for status_item in status_data %}
+                      {% if status_item.statusid|int == list_item.statusid|int %}
+                        {{ status_item.statusname }}
+                      {% endif %}
+                    {% endfor %}
+                  </div>
                   <div class="item-buttons">
                     <div class="item-button">
                     <button class="openEditItemModalBtn btn" 
                       data-itemid="{{ list_item.itemid }}"
                       data-itemname="{{ list_item.itemname }}"
                       data-listid="{{ item.listid }}"
-                      data-listname="{{ item.listname }}">Edit Item</button>
+                      data-listname="{{ item.listname }}"
+                      data-itemstatusid="{{ list_item.statusid }}" 
+                      data-statusname="{{ item.statusname }}">Edit Item</button>
                     </div>
                     <div class="item-button">
                     <form action="/delete_item" method="post">
@@ -107,6 +143,9 @@
           </ul>
       </div>  
       {% endfor %} 
+    </div>
+    <div class="introspect-button">
+        <button id="introspectionBtn" class="btn" >Run Introspection</button>
     </div>
   </body>
 </html>

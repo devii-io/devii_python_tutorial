@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const cancelBtns = document.querySelectorAll(".modal .cancel-btn");
   const itemDeleteButton = document.querySelectorAll(".item-delete-btn");
   const listDeleteButton = document.querySelectorAll(".list-delete-btn");
+  const introspectionBtn = document.getElementById("introspectionBtn");
 
   openAddItemModalBtn.addEventListener("click", () => {
     addItemModal.style.display = "block";
@@ -23,8 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
       let itemId = btn.getAttribute("data-itemid");
       let itemName = btn.getAttribute("data-itemname");
       let currentListId = btn.getAttribute("data-listid");
+      let currentStatusId = btn.getAttribute("data-itemstatusid");
 
       let listDropdown = '<select id="editListId" name="listid" required>'; //resets list
+      let statusDropdown = '<select id="editStatusID" name="statusid" required>';
+      
 
       listData.forEach( (list_item) => {
         listDropdown += '<option value="' + list_item.listid + '"';
@@ -35,6 +39,18 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       listDropdown += "</select>";
+
+      
+
+      statusData.forEach( ( status_item) => {
+        statusDropdown += '<option value="' + status_item.statusid + '"';
+        if (status_item.statusid === currentStatusId) {
+          statusDropdown += " selected";
+        }
+        statusDropdown += ">" + status_item.statusname + "</option>"
+      });
+
+      statusDropdown += "</select>";
 
       let editItemModalHtml = ` 
       <div id="editItemModal-${itemId}" class="method modal">
@@ -47,6 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <input type="text" id="itemname" name="itemname" value="${itemName}" required /><br />
             <label for="listid">Select List:</label>
             ${listDropdown}<br />
+            <label for="statusid">Select Status:</label>
+            ${statusDropdown}<br />
             <input type="submit" class="btn" value="Save Changes" />
             <button type="button" class="cancel-btn btn">Cancel</button>
           </form>
@@ -86,6 +104,19 @@ document.addEventListener("DOMContentLoaded", () => {
     btn.addEventListener("click", () => {
       let listId = btn.getAttribute("data-listid");
       let listName = btn.getAttribute("data-listname");
+      let currentStatusId = btn.getAttribute("data-statusid");
+
+      let statusDropdown = '<select id="editStatusID" name="statusid" required>';
+
+      statusData.forEach( (status_item) => {
+        statusDropdown += '<option value="' + status_item.statusid + '"';
+        if (status_item.statusid === currentStatusId) {
+          statusDropdown += " selected";
+        }
+        statusDropdown += ">" + status_item.statusname + "</option>"
+      });
+
+      statusDropdown += "</select>";
 
       let editListModalHTML = `
       <div id="editListModal-${listId}" class="method modal">
@@ -99,6 +130,8 @@ document.addEventListener("DOMContentLoaded", () => {
             <!-- Add hidden input for listId and updated listName -->
             <input type="hidden" name="original_listid" value="${listId}">
             <input type="hidden" name="updated_listname" value="${listName}">
+            <label for="statusid">Select Status:</label>
+            ${statusDropdown}<br />
             <input type="submit" class="btn" value="Save Changes" />
             <button type="button" class="cancel-btn btn">Cancel</button>
           </form>
@@ -171,5 +204,13 @@ document.addEventListener("DOMContentLoaded", () => {
         button.closest("form").submit();
       }
     });
+  });
+
+  introspectionBtn.addEventListener("click", () => {
+    fetch("/introspection")
+      .then(response => response.json())
+      .then(data =>{alert(data.messages);
+        window.location.href = "/";
+      })
   });
 });
