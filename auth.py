@@ -6,7 +6,7 @@ import requests
 import jwt
 from datetime import datetime, timezone
 
-# AUTH_URL = "https://api.devii.io/auth"
+
 AUTH_URL = "https://apidev.devii.io/auth"
 
 # Create a json file to store and load your tokens, please note that is not best 
