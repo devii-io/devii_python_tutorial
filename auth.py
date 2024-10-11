@@ -1,4 +1,4 @@
-"""This module is for recieving a access token from Devii"""
+"""This module is for receiving a access token from Devii"""
 
 import json
 import os
@@ -10,9 +10,10 @@ from datetime import datetime, timezone
 AUTH_URL = "https://apidev.devii.io/auth"
 
 # Create a json file to store and load your tokens, please note that is not best 
-# practice but a simple exaple to show how to use the tokens.
+# practice but a simple example to show how to use the tokens.
 
 TOKEN_FILE = 'token.json'
+
 
 
 def load_token():
@@ -31,20 +32,15 @@ def save_token(token):
 # Next, a function to login and retrieve your access token from Devii.  
 # For this function you will need to have your tenant id, if you need to find it you can find the instructions
 #  in https://docs.devii.io/docs/devii_portal/project_details#tenant-id-and-project-id.
-                            
-def login():
+
+def login(data):
     
     """Retreive tokens for the application"""
-
-    # Create a dictionary to store the form data
-    data = {
-        "login": "<your Devii user name>",
-        "password": "<your Devii Root role password>",
-        "tenantid": "<your tenant ID>",
-    }
-
-    # Make the POST request to the Devii authentication endpoint with the provided data.
+    print("logging in...")
+        # Make the POST request to the Devii authentication endpoint with the provided data.
     response = requests.post(AUTH_URL, data=data)
+
+    print("data: ", data)
 
     # Check for a successful response, if status code is 200 parse the JSON response
     if response.status_code == 200:
@@ -54,12 +50,17 @@ def login():
         access_token = json_response.get("access_token")
         refresh_token = json_response.get("refresh_token")
         roleid = json_response.get("roleid")
+        message = json_response.get("message")
         # Save the refresh token to a file
-        save_token({"access_token": access_token, "refresh_token": refresh_token, "roleid": roleid})
-
+        save_token({"access_token": access_token, "refresh_token": refresh_token, "roleid": roleid, "message": message})
+        print("message: ", message)
+        
     else: 
         print("error in login: ", response.status_code)
-        print(response.text)
+        print("response from login: ", response.text)
+
+    return {"status_code": response.status_code, "message": response.text}
+
 
 # The following code provides a mechanism for managing authentication tokens. The refresh_access_token function 
 # refreshes the access token using a refresh token, ensuring continued access to resources. If the token file does not 
@@ -68,13 +69,12 @@ def login():
 # are present, refreshing or renewing them as necessary. If either the access or refresh token is expired or missing, it 
 # either refreshes the tokens or logs in again to obtain new ones.
 
-def refresh_access_token():
+def refresh_access_token(data):
     """Refresh the access token using the refresh token"""
-
     #ensure the token file exists
     if not os.path.exists(TOKEN_FILE):
         print("Token file not found, logging in...")
-        login()
+        login(data)
         return
 
     #load the refresh token from the token file
@@ -101,6 +101,7 @@ def refresh_access_token():
     else:
         print("error in refresh access token: ", response.status_code)
         print(response.text)    
+    return {"status_code": response.status_code, "message": response.text}
 
     
 
@@ -118,35 +119,86 @@ def is_token_expired(token):
         return expiration_datetime < datetime.now(timezone.utc)
     return False
 
-def ensure_token_exists():
-    '''checking to see if the token exists'''
+def ensure_token_exists(data):
+    '''Check if the token exists and return appropriate response code'''
 
     if not os.path.exists(TOKEN_FILE):
         print("Token file not found, logging in...")
-        login()
-        return
+        response = login(data)
+        if response and response.get("status_code") == 200:  # Safeguard added
+            return {"status_code": 200, "message": "Logged in successfully"}
+        else:
+            return {"status_code": response.get("status_code", 500), "message": "Login failed"}  # Fallback to 500 if None
+
+    # Load the tokens from the token file
+
+    username = data.get('login').strip().lower()    
+
+    # Check if the token file exists and the user is already logged in
+    if os.path.exists(TOKEN_FILE):
+        token_message = load_token().get('message')
+        print("token_message: ", token_message)
+        print("username: ", username)
+        print(f'Logged in as {username}.')
+        print("Token file found, checking token...")
+        with open(TOKEN_FILE, 'r') as file:
+            token_data = json.load(file)
+            token_message = token_data.get('message', '').strip().lower()
+            expected_message = f"logged in as {username}.".strip().lower()
+
+            if token_message == expected_message:
+                print("User is already logged in.")
+                return {"status_code": 200, "message": "Logged in successfully"}
+            else:
+                print("Token file found, but user is not logged in.")
+                return login(data)
+            
+
 
     access_token = load_token().get('access_token')
     refresh_token = load_token().get('refresh_token')
-    
+
+    # Check if the access token is missing or expired
     if access_token is None or is_token_expired(access_token):
+        # If the refresh token is also expired or missing, log in again
         if refresh_token is None or is_token_expired(refresh_token):
             print("Refresh token expired or not found, logging in...")
-            login()
+            response = login(data)
+            if response and response.get("status_code") == 200:  # Safeguard added
+                return {"status_code": 200, "message": "Logged in successfully"}
+            else:
+                return {"status_code": response.get("status_code", 500), "message": "Login failed"}  # Fallback to 500 if None
         else:
             print("Access token expired, refreshing token...")
-            refresh_access_token()
+            new_access_token = refresh_access_token(data)
+            if new_access_token:
+                return {"status_code": 200, "message": "Access token refreshed"}
+            else:
+                return {"status_code": 401, "message": "Token refresh failed"}
 
-# This line calls the start of token retrival process 
 
-ensure_token_exists()
+    # If the access token is still valid, return success code
+    # print("Access token is valid.")
+    # return {"status_code": 200, "message": "Access token is valid"}
+    # return { "status_code": response.status_code, "message": response.text}
+    
 
 
+# def get_roles():
+#     '''Get the roles from the token file'''
+#     return load_token().get('roleid')
 
-# Load the refresh token from the token.json file
+def logout():
+    '''Logout the user and remove the token file'''
+    if os.path.exists(TOKEN_FILE):
+        os.remove(TOKEN_FILE)
+        return {"status": "success", "message": "User logged out successfully"}
+    return {"status": "error", "message": "User not logged in"}
+
+# # Load the refresh token from the token.json file
 access_token = load_token().get('access_token')
 
-# If you would like tot test the access token uncomment the code below to print the access token
+# If you would like to test the access token uncomment the code below to print the access token
 # print("ACCESS TOKEN: ", access_token)
 
 # Headers you will need for all http post calls

@@ -4,8 +4,9 @@ import requests
 import auth
 
 
-# This URL is for both queries and mutations within the Devii enivorment
-QUERY_URL = "https://api.devii.io/query"
+# This URL is for both queries and mutations within the Devii environment
+# QUERY_URL = "https://api.devii.io/query"
+QUERY_URL = "https://apidev.devii.io/query"
 
 
 def execute_graphql_query(query, variables=None):
@@ -13,7 +14,7 @@ def execute_graphql_query(query, variables=None):
     # This will load the query or mutation and variable if there are any into the GraphQL query or mutation
     payload = {"query": query, "variables": variables}
 
-    # the query will always recieve a return response of data in the same shape as the query
+    # the query will always receive a return response of data in the same shape as the query
     response = requests.post(QUERY_URL, headers=auth.headers, json=payload)
 
     # the response is returned in json form
@@ -110,8 +111,8 @@ def add_list(listname, status_id):
     return execute_graphql_query(add_list_mutation, variables)
 
 # Editing items requires identifying the Primary Key of the item you want to edit/change
-# In this case the PK is the itemid that will be the varible $j 
-# The varible $i will be the changes to the item
+# In this case the PK is the itemid that will be the variable $j 
+# The variable $i will be the changes to the item
 
 
 def edit_item(itemid, new_name, list_id, status_id):
@@ -184,3 +185,16 @@ def delete_list(listid):
     """
     variables = {"i": listid}
     return execute_graphql_query(delete_list_mutation, variables)
+
+def add_user(username, password, roleid):
+    add_user_mutation = """
+    mutation($i:userInput){
+        create_user(input:$i){
+            userid
+            username
+            roleid
+        }
+    }
+    """
+    variables = {"i": {"username": username, "password": password, "roleid": int(roleid)}}
+    return execute_graphql_query(add_user_mutation, variables)
