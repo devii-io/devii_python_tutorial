@@ -13,10 +13,13 @@ def execute_graphql_query(query, variables=None):
     """helper function for all queries and mutations"""
     # This will load the query or mutation and variable if there are any into the GraphQL query or mutation
     payload = {"query": query, "variables": variables}
-
+    headers = {
+        "Authorization": f"Bearer {auth.load_token().get('access_token')}",
+        "Content-Type": "application/json",
+    }
     # the query will always receive a return response of data in the same shape as the query
-    response = requests.post(QUERY_URL, headers=auth.headers, json=payload)
-
+    response = requests.post(QUERY_URL, headers=headers, json=payload)
+    print("response from execute: ", response)
     # the response is returned in json form
     return response.json()
 
@@ -24,7 +27,7 @@ def execute_graphql_query(query, variables=None):
 def get_list_data():
     # query that will be sent to Devii to retrieve all the data from the list and item tables
     list_name_query = """
-    {
+    query list_stuff{
         list {
             listid
             listname
@@ -37,16 +40,26 @@ def get_list_data():
         }
     }
     """
+
     # creates the payload that will be used by Devii to return the data
     list_name_payload = {"query": list_name_query, "variables": {}}
+
+    # print("list_name_payload from get list data: ", list_name_payload)
 
     # sends the query payload and authorization token to devii
     list_name_response = requests.post(
         QUERY_URL, headers=auth.headers, json=list_name_payload
     )
 
-    # returns the response from GraphQL in a json nested dictionary, it retrieves the values from the keys, data and list
-    return list_name_response.json()["data"]["list"]
+
+    response_json = list_name_response.json()
+    if "data" in response_json and "list" in response_json["data"]:
+        return response_json["data"]["list"]
+    else:
+        print("Unexpected JSON structure:", response_json)
+        return []
+
+
 
 def get_status_name():
     query_status_name="""
@@ -66,8 +79,14 @@ def get_status_name():
         QUERY_URL, headers=auth.headers, json=status_name_payload
     )
 
-    # returns the response from GraphQL in a json nested dictionary, it retrieves the values from the keys, data and status
-    return status_name_response.json()["data"]["status_value"]
+    response_json = status_name_response.json()
+    if "data" in response_json and "status_value" in response_json["data"]:
+        return response_json["data"]["status_value"]
+    else:
+        print("Unexpected JSON structure:", response_json)
+        return []
+
+
 
 def add_item(item_name, list_id, status_id):
     # to add an item to the item table with a listid FK and statusid FK

@@ -2,10 +2,10 @@
 
 import json
 import os
-from tkinter import Variable
-import requests
 import jwt
+import requests
 from datetime import datetime, timezone
+import auth
 import graphql_helper
 
 # AUTH_URL = "https://api.devii.io/auth"

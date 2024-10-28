@@ -156,6 +156,7 @@ def ensure_token_exists(data):
 
 
     access_token = load_token().get('access_token')
+    print("access_token: ", access_token)
     refresh_token = load_token().get('refresh_token')
 
     # Check if the access token is missing or expired

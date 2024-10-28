@@ -8,10 +8,10 @@ import json
 app = Flask(__name__)
 
 
-# @app.route('/', methods=['GET']) 
-# # get method to render the index page
-# def index():
-#     return render_template('index.html')    
+@app.route('/', methods=['GET']) 
+# get method to render the index page
+def index():
+    return render_template('index.html')    
 
 @app.route('/login', methods=['GET'])
 # get method to render the login form
@@ -87,9 +87,8 @@ def logout():
 #this is the home page for the app
 def home():
     #this will get all the data from your database via Devii
-    print("home")
-    print("logged in as: ", auth.load_token().get('message'))
     list_data = graphql_helper.get_list_data()
+
     status_data = graphql_helper.get_status_name()
 
     # sorts list by list id then item id so it will render the same way
@@ -97,7 +96,6 @@ def home():
     for item in list_data:
         item["item_collection"].sort(key=lambda x: x["itemid"])
     
-    print("list_data at home: ", list_data)
     # this returns the home.html template with the list data
     return render_template("home.html", list_data=list_data, status_data=status_data)
 
