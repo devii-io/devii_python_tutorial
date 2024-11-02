@@ -1,151 +1,34 @@
-<!-- index.html template -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ToDo App</title>
-    </head>
-    <script 
-      type="text/javascript" 
-      src="{{ url_for('static', filename='script.js') }}">
-    </script>
-    <script type="text/javascript">
-      let listData = JSON.parse('{{ list_data | tojson | safe }}');
-      let statusData = JSON.parse('{{ status_data | tojson | safe }}');
-      console.log(statusData)
-      console.log(listData)
-    </script>
-    <link rel="stylesheet" type="text/css" href="../static/css_reset.css" /> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="../static/style.css" />
-  </head>
-  <body>
-    <h1>ToDo App</h1></br>
-    <!-- Button to trigger the add item modal -->
-    <div class="add-item-button">  
-      <button id="openAddItemModalBtn" class="openAddItemModalBtn btn">Add Item</button> 
-    </div>
-        <!-- Add New Item Modal -->
-    <div id="addItemModal" class="modal"> 
-      <div class="modal-content">
-        <a href="#close" class="close">&times;</a>
-        <h2 class="modal-heading">Add New Item</h2>
-        <form action="/add_item" method="post"> 
-          <label for="itemname">Item Name:</label>
-          <input type="text" id="itemname" name="itemname" required /><br />
-          <label for="listid">Select List:</label>
-          <select id="listid" name="listid" required>
-            {% for list_item in list_data %}
-            <option value="{{ list_item.listid }}">
-              {{ list_item.listname }}
-            </option>
-            {% endfor %}</select><br />
-            <label for="statusid">Select Status:</label>
-            <select id="statusid" name="statusid" required>
-            {% for status_item in status_data %}
-            <option value="{{status_item.statusid}}">
-              {{ status_item.statusname}}
-            </option>
-            {%endfor %}
-          </select></br>
-          <input type="submit" class="btn" value="Save Item" />
-          <button type="button" class="cancel-btn btn">Cancel</button>
-        </form>
-      </div>
+    <title>Welcome</title>
+</head>
+
+<body>
+    <h1>
+        Welcome to the Devii ToDo App
+    </h1>
+    <div class="welcome-container">
+        
+        <div class="welcome-box" text>
+            <h2>Sign Up</h2>
+            <p>Don't have an account? Sign up now!</p>
+            <button id="signupBtn" class="signupBtn btn">Sign Up</button>
+        </div>
+        <div class="welcome-box">
+            <h2>Log In</h2>
+            <p>Already have an account? Log in now!</p>
+            <button id="loginBtn" class="loginBtn btn">Login</button>
+        </div>
     </div>
 
-    <!-- Button to trigger add new list modal -->
-    <div class="add-list-button">
-      <button id="openNewListModalBtn" class="openAddListModalBtn btn">Add List</button> 
-    </div>
-    <!-- Add New List Modal -->
-    <div id="newListModal" class="modal">
-      <div class="modal-content">
-        <a href="#close" class="close">&times;</a>
-        <h2 class="modal-heading">Add New List</h2>
-        <form action="/add_list" method="post">
-          <label for="listname">List Name:</label>
-          <input type="text" id="listname" name="listname" required /><br />
-          <label for="statusid">Select Status:</label>
-            <select id="statusid" name="statusid" required>
-            {% for item in status_data %}
-              <option value="{{item.statusid}}">
-                {{ item.statusname}}
-              </option>
-            {%endfor %}
-          </select></br>
-          <input type="submit" class="btn" value="Save List" />
-          <button type="button" class="cancel-btn btn">Cancel</button>
-        </form>
-      </div>
-    </div>
-    <div class="lists-wrapper">
-      {% for item in list_data %}
-      <div class="list-container">
-        <ul class="items-collection-header">
-          <li class="list-header">
-            <div class="list-id">  {{ item.listid }} </div>
-            <div class="list-name"> {{ item.listname }} </div>
-            <div class="list-status">
-                {% for status_item in status_data %}
-                {% if status_item.statusid|int == item.statusid|int %}
-                  {{ status_item.statusname }}
-                {% endif %}
-              {% endfor %}
-            </div>
-              <div class="list-buttons">
-                <div class="list-button">
-                  <button class="openEditListModalBtn btn" 
-                  data-listid="{{ item.listid }}"
-                  data-listname="{{ item.listname }}"
-                  data-statusid="{{ item.statusid }}" >Edit List</button>
-                </div>
-                <div class="list-button">
-                  <form action="/delete_list" method="post">
-                    <input type="hidden" name="listid" value="{{ item.listid }}">
-                    <button type="submit" class="list-delete-btn btn">Delete List</button>
-                  </form>
-                </div>
-              </div>
-          </li>
-        </ul>
-            <ul class="items-collection">
-              {% for list_item in item.item_collection %}
-              <li class="item">
-                  <div class="item-id">{{ list_item.itemid }}</div>
-                  <div class="item-name">{{ list_item.itemname }}</div>
-                  <div class="item-status"> 
-                    {% for status_item in status_data %}
-                      {% if status_item.statusid|int == list_item.statusid|int %}
-                        {{ status_item.statusname }}
-                      {% endif %}
-                    {% endfor %}
-                  </div>
-                  <div class="item-buttons">
-                    <div class="item-button">
-                    <button class="openEditItemModalBtn btn" 
-                      data-itemid="{{ list_item.itemid }}"
-                      data-itemname="{{ list_item.itemname }}"
-                      data-listid="{{ item.listid }}"
-                      data-listname="{{ item.listname }}"
-                      data-itemstatusid="{{ list_item.statusid }}" 
-                      data-statusname="{{ item.statusname }}">Edit Item</button>
-                    </div>
-                    <div class="item-button">
-                    <form action="/delete_item" method="post">
-                      <input type="hidden" name="itemid" value="{{ list_item.itemid }}">
-                      <button type="submit" class="item-delete-btn btn">Delete Item</button> 
-                    </form>
-                  </div>
-                </div>
-            </li>
-            {% endfor %}
-          </ul>
-      </div>  
-      {% endfor %} 
-    </div>
-    <div class="introspect-button">
-        <button id="introspectionBtn" class="btn" >Run Introspection</button>
-    </div>
-  </body>
+    <script 
+    type="text/javascript" 
+    src="{{ url_for('static', filename='script.js') }}">
+    </script>
+
+</body>
 </html>

@@ -5,8 +5,10 @@ import auth
 import json
 import os
 
-PBAC_URL = "https://api.devii.io/roles_pbac"
-OLD_DICT_FILE = 'old_dict.json' # TThis file will be used to store the tables and column data prior to introspection
+# PBAC_URL = "https://api.devii.io/roles_pbac"
+PBAC_URL = "https://apidev.devii.io/roles_pbac"
+
+OLD_DICT_FILE = 'old_dict.json' # This file will be used to store the tables and column data prior to introspection
 
 def load_old_dict():
     if os.path.exists(OLD_DICT_FILE):
@@ -95,4 +97,4 @@ def devii_introspect():
 
     return message
 
-devii_introspect()
+# devii_introspect()

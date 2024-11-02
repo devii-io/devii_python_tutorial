@@ -10,6 +10,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const itemDeleteButton = document.querySelectorAll(".item-delete-btn");
   const listDeleteButton = document.querySelectorAll(".list-delete-btn");
   const introspectionBtn = document.getElementById("introspectionBtn");
+  const loginBtn = document.getElementById("loginBtn");
+  const signupBtn = document.getElementById("signupBtn");
+
+if (loginBtn) {
+  loginBtn.addEventListener('click', () => {
+    window.location.href = '/login'; // Redirect to the login page
+  });
+}
+
+if (signupBtn) {
+  signupBtn.addEventListener('click', () => {
+    window.location.href = '/signup'; // Redirect to the signup page
+  });
+}
+
 
   openAddItemModalBtn.addEventListener("click", () => {
     addItemModal.style.display = "block";
@@ -210,7 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetch("/introspection")
       .then(response => response.json())
       .then(data =>{alert(data.messages);
-        window.location.href = "/";
+        window.location.href = "/home";
       })
   });
 });

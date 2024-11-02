@@ -57,6 +57,39 @@ h1 {
 
 /* List styles */
 
+input[type=text] {
+  width: 300px;
+}
+
+.welcome-container {
+  display: flex;
+  flex-direction: column;
+  background: #63adca;
+  max-width: 560px;
+  margin: 30px auto;
+  line-height: 1.8;
+}
+
+.welcome-box{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  background: #63adca;
+  max-width: 560px;
+  margin: 30px auto;
+  line-height: 1.8;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  background: #63adca;
+  max-width: 560px;
+  margin: 30px auto;
+  line-height: 1.8;
+}
+
 .list-container {
   display: flex;
   flex-direction: column;
@@ -106,6 +139,19 @@ h1 {
   text-align: center;
   font-size: 14px;
   margin: 2px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.l_btn,
+.signup_btn {
+  background: #327893;
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  text-align: center;
+  font-size: 14px;
+  margin: 10px;
   cursor: pointer;
   border-radius: 8px;
 }
