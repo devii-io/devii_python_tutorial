@@ -2,6 +2,8 @@
 
 ## This tutorial will use Python, Flask, Jinja2, HTML, Javascipt, and a SQL database to create a todo app.
 
+To complete this tutorial start with follwing the instructions here: https://docs-staging.devii.io/docs/Tutorials/python_flask/python_flask_intro
+
 Before you proceed further with the tutorial you need to ensure that you have Python installed.
 
 - Windows:
