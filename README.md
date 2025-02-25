@@ -45,4 +45,8 @@ Linux:
 
 The app should be running on your local server http://127.0.0.1:5000
 
+If you click on the login button and login with your root role (the role used to create your tenant) you will be able to use the app, to have users sign up and usee the app follow the directions here.... (need to add)
+
+## Create Nobody Role, Role Classes and Policy
+
 
