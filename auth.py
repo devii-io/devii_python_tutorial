@@ -79,6 +79,7 @@ def refresh_access_token(data):
 
     #load the refresh token from the token file
     refresh_token = load_token().get('refresh_token')
+    print("refresh_token: ", refresh_token)
     
     #header to send to the Devii authentication endpoint for new tokens using the refresh token
     refresh_headers = {
@@ -156,7 +157,7 @@ def ensure_token_exists(data):
 
 
     access_token = load_token().get('access_token')
-    print("access_token: ", access_token)
+    print("access_token enure exits: ", access_token)
     refresh_token = load_token().get('refresh_token')
 
     # Check if the access token is missing or expired
@@ -184,26 +185,24 @@ def ensure_token_exists(data):
     # return { "status_code": response.status_code, "message": response.text}
     
 
+# Load the access token from the token.json file
+def get_access_token():
+    '''Get the access token from the token file'''
+    access_token = load_token().get('access_token')
+    print("access_token get access token: ", access_token)
+    return access_token
 
-# def get_roles():
-#     '''Get the roles from the token file'''
-#     return load_token().get('roleid')
+# Function to get headers with the latest access token
+def get_headers():
+    return {
+        "Authorization": f"Bearer {get_access_token()}",
+        "Content-Type": "application/json",
+    }
 
+# Function to logout the user and remove the token file
 def logout():
     '''Logout the user and remove the token file'''
     if os.path.exists(TOKEN_FILE):
         os.remove(TOKEN_FILE)
         return {"status": "success", "message": "User logged out successfully"}
     return {"status": "error", "message": "User not logged in"}
-
-# # Load the refresh token from the token.json file
-access_token = load_token().get('access_token')
-
-# If you would like to test the access token uncomment the code below to print the access token
-# print("ACCESS TOKEN: ", access_token)
-
-# Headers you will need for all http post calls
-headers = {
-    "Authorization": f"Bearer {access_token}",
-    "Content-Type": "application/json",
-}

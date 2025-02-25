@@ -9,16 +9,18 @@ import auth
 QUERY_URL = "https://apidev.devii.io/query"
 
 
+
 def execute_graphql_query(query, variables=None):
     """helper function for all queries and mutations"""
     # This will load the query or mutation and variable if there are any into the GraphQL query or mutation
     payload = {"query": query, "variables": variables}
-    headers = {
-        "Authorization": f"Bearer {auth.load_token().get('access_token')}",
-        "Content-Type": "application/json",
-    }
+ 
     # the query will always receive a return response of data in the same shape as the query
-    response = requests.post(QUERY_URL, headers=headers, json=payload)
+    try:
+        response = requests.post(QUERY_URL, headers=auth.get_headers(), json=payload)
+    except requests.exceptions.RequestException as e:
+        print("Error in request:", e)
+        return None
     print("response from execute: ", response)
     # the response is returned in json form
     return response.json()
@@ -32,7 +34,9 @@ def get_list_data():
             listid
             listname
             statusid
+            devii_roleid
             item_collection {
+                devii_roleid
                 itemid
                 itemname
                 statusid
@@ -44,19 +48,20 @@ def get_list_data():
     # creates the payload that will be used by Devii to return the data
     list_name_payload = {"query": list_name_query, "variables": {}}
 
-    # print("list_name_payload from get list data: ", list_name_payload)
+    print("list_name_payload from get list data: ", list_name_payload)
 
+   
     # sends the query payload and authorization token to devii
     list_name_response = requests.post(
-        QUERY_URL, headers=auth.headers, json=list_name_payload
+        QUERY_URL, headers=auth.get_headers(), json=list_name_payload
     )
 
-
+    print("list_name_response: ", list_name_response)
     response_json = list_name_response.json()
     if "data" in response_json and "list" in response_json["data"]:
         return response_json["data"]["list"]
     else:
-        print("Unexpected JSON structure:", response_json)
+        print("Unexpected JSON structure in list data:", response_json)
         return []
 
 
@@ -76,7 +81,7 @@ def get_status_name():
 
     # sends the query payload and authorization token to devii
     status_name_response = requests.post(
-        QUERY_URL, headers=auth.headers, json=status_name_payload
+        QUERY_URL, headers=auth.get_headers(), json=status_name_payload
     )
 
     response_json = status_name_response.json()
@@ -95,6 +100,7 @@ def add_item(item_name, list_id, status_id):
             create_item(input: $i){
                 itemid
                 itemname
+                devii_roleid
                 status_value {
                     statusname
                 }
@@ -104,8 +110,13 @@ def add_item(item_name, list_id, status_id):
             }
         }
     """
+    # the roleid is retrieved from the token
+    roleid = auth.load_token().get("roleid")
+
+    print("roleid: ", roleid)
+
     # the variables will be retrieved from a form the user will submit
-    variables = {"i": {"itemname": item_name, "listid": int(list_id), "statusid": int(status_id)}}
+    variables = {"i": {"itemname": item_name, "listid": int(list_id), "statusid": int(status_id), "devii_roleid": int(roleid)}}
 
     # the GraphQL mutation run by the helper function
     return execute_graphql_query(add_item_mutation, variables)
@@ -119,6 +130,7 @@ def add_list(listname, status_id):
         create_list(input:$i){
             listid
             listname
+            devii_roleid
             status_value{
                 statusid
                 statusname
@@ -126,7 +138,11 @@ def add_list(listname, status_id):
         }
     }
     """
-    variables = {"i": {"listname": listname, "statusid": int(status_id)}}
+    roleid = auth.load_token().get("roleid")
+
+    print("roleid: ", roleid)
+
+    variables = {"i": {"listname": listname, "statusid": int(status_id), "devii_roleid": int(roleid)}}
     return execute_graphql_query(add_list_mutation, variables)
 
 # Editing items requires identifying the Primary Key of the item you want to edit/change

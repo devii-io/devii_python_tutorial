@@ -71,7 +71,7 @@ def devii_introspect():
     """
 
     util_introspect = {"query": introspect, "variables": {}}
-    response = requests.post(PBAC_URL, headers=auth.headers, json=util_introspect)
+    response = requests.post(PBAC_URL, headers=auth.get_headers(), json=util_introspect)
 
     data = response.json()["data"]["Utility"]["introspect"]['json']['__schema']
 

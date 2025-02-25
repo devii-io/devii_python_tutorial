@@ -56,7 +56,8 @@ def signup():
         "name": name,
         "login": email,
         "password": password,
-        "tenantid": int(tenantid)
+        "tenantid": int(tenantid),
+        "classes": int(XXX)
     }
     #register.anon_login will return an access token for the anonymous user to create a new user
     access_token = register.anon_login(tenantid)
@@ -73,11 +74,14 @@ def signup():
         return redirect(url_for("signup"))
     
 
-@app.route("/logout")   
+@app.route("/logout", methods=["POST"])   
 def logout():
     response = auth.logout()
     if response.get("status") == "success":
+        print("Logged out successfully")
         return redirect(url_for("login"))  
+    else: 
+        return "Error logging out"
     
     
 
@@ -88,8 +92,8 @@ def logout():
 def home():
     #this will get all the data from your database via Devii
     list_data = graphql_helper.get_list_data()
-
     status_data = graphql_helper.get_status_name()
+    roleid = auth.load_token().get("roleid")
 
     # sorts list by list id then item id so it will render the same way
     list_data.sort(key=lambda x: x["listid"])
@@ -97,7 +101,7 @@ def home():
         item["item_collection"].sort(key=lambda x: x["itemid"])
     
     # this returns the home.html template with the list data
-    return render_template("home.html", list_data=list_data, status_data=status_data)
+    return render_template("home.html", list_data=list_data, status_data=status_data, roleid=roleid)
 
 
 @app.route("/add_item", methods=["POST"])
@@ -192,20 +196,20 @@ def get_status():
 
     return status_data
 
+
 #The "GET" method is used here to ensure a response from GraphQL
 @app.route("/introspection", methods=["GET"])
 def introspect():
     try:
-    # Run the devii_introspect function and get messages
+        # Run the devii_introspect function and get messages
         messages = utils.devii_introspect()
-        
-
+        # print ("flask result: ", messages)
         # You can return additional data if needed
         result = {"status": "success", "messages": messages}
     except Exception as e:
         # Handle exceptions if introspection fails
         result = {"status": "error", "message": str(e)}
-    print ("flask result: ", messages)
+    
     return result
 
 if __name__ == "__main__":

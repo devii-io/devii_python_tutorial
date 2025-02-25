@@ -144,8 +144,17 @@
       </div>  
       {% endfor %} 
     </div>
+    <div class="logout-button">
+      <form action="/logout" method="post">
+        <button type="submit" class="btn">Logout</button>
+      </form>
+    </div>
+    <! -- You will need to add your root role id here -->
+    {% if roleid == 1861 %}
     <div class="introspect-button">
         <button id="introspectionBtn" class="btn" >Run Introspection</button>
     </div>
+    {% endif %}
+
   </body>
 </html>

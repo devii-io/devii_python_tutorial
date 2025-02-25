@@ -18,9 +18,6 @@ QUERY_URL = "https://apidev.devii.io/query"
 def anon_login(tenantid):
     """Log in as an anonymous user before you can have a user sign up"""
     anon_payload = {"tenantid": int(tenantid)}
-    anon_login = requests.post(ANON_URL, json=anon_payload)
-    print("anon_login: ", anon_login.json().get("access_token"))
-    print(type(tenantid))
     response = requests.post(ANON_URL, json=anon_payload)
 
     # Check for a successful response, if status code is 200 parse the JSON response
@@ -45,14 +42,14 @@ def create_user(data, access_token):
                 login
                 tenantid
                 roleid
-            }
+                }
             }
     """ 
     print("data: ", data)   
     print("creating new user")
     # the variables will be retrieved from a form the user will submit
     variables = {"i": data}
-    print("variables: ", variables)
+    print("variables 1: ", variables)
 
     new_user_payload = {"query": create_new_user, "variables": variables}
 

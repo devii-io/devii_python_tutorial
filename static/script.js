@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const introspectionBtn = document.getElementById("introspectionBtn");
   const loginBtn = document.getElementById("loginBtn");
   const signupBtn = document.getElementById("signupBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
 
 if (loginBtn) {
   loginBtn.addEventListener('click', () => {
@@ -227,5 +228,14 @@ if (signupBtn) {
       .then(data =>{alert(data.messages);
         window.location.href = "/home";
       })
+  });
+
+  logoutBtn.addEventListener("click", () => {
+    fetch("/logout")
+      .then(response => response.json())
+      .then(data => {
+        alert(data.messages);
+        window.location.href = "/login";
+      });
   });
 });
